@@ -1,44 +1,32 @@
-.App {
-  text-align: center;
-  .App-header {
-    min-height: 100vh;
+@import 'styles/vars.scss';
+
+.home {
+  display: grid;
+  grid-template-columns: 25rem auto 25rem;
+  grid-template-rows: 7rem auto;
+  grid-template-areas:
+    'header header header'
+    'solutions work-surface stats-tools';
+  .header {
+    grid-area: header;
+    background-color: $grey-9;
+    padding: 2rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    .App-logo {
-      height: 40vmin;
-      pointer-events: none;
+    h1 {
+      color: $grey-1;
     }
-    .App-link {
-      color: rgb(112, 76, 182);
-    }
+  }
+  .solutions {
+    grid-area: solutions;
+    padding: 2rem;
+  }
+  .work-surface {
+    grid-area: work-surface;
+    padding: 2rem;
+  }
+  .stats-tools {
+    grid-area: stats-tools;
+    padding: 2rem;
   }
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App {
-    .App-header {
-      .App-logo {
-        animation: App-logo-float infinite 3s ease-in-out;
-      }
-    }
-  }
-  @keyframes App-logo-float {
-    0% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(10px);
-    }
-    100% {
-      transform: translateY(0px);
-    }
-  }
-}
-
-
-
-
-

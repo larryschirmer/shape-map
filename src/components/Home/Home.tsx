@@ -1,58 +1,38 @@
 import React from 'react';
-import logo from 'logo.svg';
-import Counter from 'components/Counter';
+
 import styles from './Home.module.scss';
 
-function App() {
+const Home = () => {
   return (
-    <div className={styles['App']}>
-      <header className={styles['App-header']}>
-        <img src={logo} className={styles['App-logo']} alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className={styles['App-link']}
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className={styles['App-link']}
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className={styles['App-link']}
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className={styles['App-link']}
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
+    <div className={styles['home']}>
+      <header className={styles['header']}>
+        <h1 className={styles['logo']}>S</h1>
       </header>
+      <section className={styles['solutions']}>
+        <ul>
+          <li>Proposed Solution</li>
+          <li>Proposed Solution</li>
+        </ul>
+      </section>
+      <section className={styles['work-surface']}></section>
+      <section className={styles['stats-tools']}>
+        <div className={styles['stats']}>123m</div>
+        <div className={styles['tools']}>
+          <div className={styles['user-actions']}>
+            <button>undo</button>
+            <button>redo</button>
+            <button>intersect</button>
+            <button>union</button>
+          </div>
+          <div className={styles['operations']}>
+            <ul>
+              <li>Original State</li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
   );
-}
+};
 
-export default App;
+export default Home;
