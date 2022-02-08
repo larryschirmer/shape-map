@@ -1,9 +1,9 @@
 import polygons1 from './SE_State_Management_Polygons_1.json';
 import polygons2 from './SE_State_Management_Polygons_2.json';
 
-type Data = {
+export type GEOFeature = {
+  id: number;
   name: string;
-  numFeatures: number;
   features: {
     type: string;
     properties: {};
@@ -12,17 +12,17 @@ type Data = {
       coordinates: number[][][];
     };
   }[];
-}[];
+};
 
-const data: Data = [
+const data: GEOFeature[] = [
   {
+    id: 1,
     name: 'Polygons 1',
-    numFeatures: polygons1.features.length,
     features: polygons1.features,
   },
   {
+    id: 2,
     name: 'Polygons 2',
-    numFeatures: polygons2.features.length,
     features: polygons2.features,
   },
 ];

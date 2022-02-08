@@ -1,0 +1,10 @@
+@import 'styles/vars.scss';
+
+.solutions {
+  grid-area: solutions;
+  padding: 2rem;
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
+}
