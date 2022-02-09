@@ -3,7 +3,7 @@ import turfArea from '@turf/area';
 import * as turfHelpers from '@turf/helpers';
 
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { selectFeatures, intersectFeatures } from 'app/slices/appData';
+import { selectFeatures, intersectFeatures, unionFeatures } from 'app/slices/appData';
 
 import styles from './StatsTools.module.scss';
 
@@ -14,6 +14,11 @@ const StatsTools = () => {
   const handleIntersect = () => {
     if (features.length !== 2) return;
     dispatch(intersectFeatures());
+  };
+
+  const handleUnion = () => {
+    if (features.length !== 2) return;
+    dispatch(unionFeatures());
   };
 
   return (
@@ -36,7 +41,9 @@ const StatsTools = () => {
           <button disabled={features.length !== 2} onClick={handleIntersect}>
             intersect
           </button>
-          <button>union</button>
+          <button disabled={features.length !== 2} onClick={handleUnion}>
+            union
+          </button>
         </div>
         <div className={styles['operations']}>
           <ul>

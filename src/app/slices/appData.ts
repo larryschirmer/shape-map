@@ -3,7 +3,7 @@ import * as turfHelpers from '@turf/helpers';
 
 import { RootState } from 'app/store';
 import geoData from 'data';
-import intersectPolygons from 'app/utils/intersectPolygons';
+import { intersectPolygons, unionPolygons } from 'app/utils';
 
 type Solution = {
   id: number;
@@ -98,6 +98,34 @@ export const appDataSlice = createSlice({
         }),
       };
     },
+    unionFeatures: (state) => {
+      if (state.selectedSolution === null) return state;
+      const { features, selected, history } = state.data[state.selectedSolution];
+      if (selected.length !== 2) return state;
+
+      const { features: updatedFeatures, history: updatedHistory } = unionPolygons(
+        features,
+        selected,
+        history,
+      );
+
+      // return state
+      return {
+        ...state,
+        data: state.data.map((solution) => {
+          if (solution.id === state.selectedSolution) {
+            return {
+              ...solution,
+              features: updatedFeatures,
+              history: updatedHistory,
+              selected: [],
+            };
+          } else {
+            return solution;
+          }
+        }),
+      };
+    },
   },
 });
 
@@ -123,5 +151,5 @@ export const selectFeatures = ({ appData }: RootState) => {
     }));
 };
 
-export const { loadData, setSelectedSolution, toggleFeature, intersectFeatures } =
+export const { loadData, setSelectedSolution, toggleFeature, intersectFeatures, unionFeatures } =
   appDataSlice.actions;
