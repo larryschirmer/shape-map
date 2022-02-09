@@ -1,24 +1,22 @@
 import React from 'react';
 
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { selectSolution } from 'app/slices/appData';
+import { setSelectedSolution, selectSolutions } from 'app/slices/appData';
 
 import styles from './Solutions.module.scss';
 
 const Solutions = () => {
   const dispatch = useAppDispatch();
-  const { data } = useAppSelector(({ appData }) => ({
-    data: appData.data,
-  }));
+  const solutions = useAppSelector(selectSolutions);
 
   const handleSelectSolution = (solutionId: number) => {
-    dispatch(selectSolution(solutionId));
+    dispatch(setSelectedSolution(solutionId));
   };
 
   return (
     <section className={styles['solutions']}>
       <ul>
-        {data.map(({ id, name }) => (
+        {solutions.map(({ id, name }) => (
           <li key={id}>
             <button onClick={() => handleSelectSolution(id)}>{name}</button>
           </li>

@@ -16,12 +16,12 @@ export type GEOFeature = {
 
 const data: GEOFeature[] = [
   {
-    id: 1,
+    id: 0,
     name: 'Polygons 1',
     features: polygons1.features,
   },
   {
-    id: 2,
+    id: 1,
     name: 'Polygons 2',
     features: polygons2.features,
   },

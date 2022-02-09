@@ -4,6 +4,7 @@ import { useAppDispatch } from 'app/hooks';
 import { loadData } from 'app/slices/appData';
 
 import Solutions from 'components/Solutions';
+import WorkSurface from 'components/WorkSurface';
 
 import styles from './Home.module.scss';
 
@@ -21,7 +22,7 @@ const Home = () => {
         <h1 className={styles['logo']}>S</h1>
       </header>
       <Solutions />
-      <section className={styles['work-surface']}></section>
+      <WorkSurface />
       <section className={styles['stats-tools']}>
         <div className={styles['stats']}>123m</div>
         <div className={styles['tools']}>
