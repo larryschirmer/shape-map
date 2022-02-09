@@ -76,4 +76,16 @@ export const selectSolution = ({ appData }: RootState) => {
   return appData.data[appData.selectedSolution];
 };
 
+export const selectFeatures = ({ appData }: RootState) => {
+  if (appData.selectedSolution === null) return null;
+  const { selected, features } = appData.data[appData.selectedSolution];
+  return selected
+    .slice(0)
+    .sort((a, b) => a - b)
+    .map((featureId) => ({
+      featureId,
+      ...features[featureId],
+    }));
+};
+
 export const { loadData, setSelectedSolution, toggleFeature } = appDataSlice.actions;
