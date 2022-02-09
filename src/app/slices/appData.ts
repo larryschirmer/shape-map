@@ -45,9 +45,14 @@ export const appDataSlice = createSlice({
       if (state.selectedSolution === null) return state;
 
       let selectedFeatures = [...state.data[state.selectedSolution].selected];
+
       if (selectedFeatures.includes(action.payload))
         selectedFeatures.splice(selectedFeatures.indexOf(action.payload), 1);
-      else selectedFeatures.push(action.payload);
+      else {
+        // at most 2 features can be selected at a time
+        if (selectedFeatures.length >= 2) return state;
+        selectedFeatures.push(action.payload);
+      }
 
       return {
         ...state,
@@ -62,6 +67,14 @@ export const appDataSlice = createSlice({
           }
         }),
       };
+    },
+    intersectFeatures: (state, action: PayloadAction<[number, number]>) => {
+      // perform intersect process
+      // add intersected feature to features array
+      // create a new history state
+      // - remove intersected parents
+      // - add intersected feature id
+      // append new history instance
     },
   },
 });
