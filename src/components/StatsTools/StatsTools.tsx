@@ -3,12 +3,18 @@ import turfArea from '@turf/area';
 import * as turfHelpers from '@turf/helpers';
 
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { selectFeatures } from 'app/slices/appData';
+import { selectFeatures, intersectFeatures } from 'app/slices/appData';
 
 import styles from './StatsTools.module.scss';
 
 const StatsTools = () => {
+  const dispatch = useAppDispatch();
   const features = useAppSelector(selectFeatures) ?? [];
+
+  const handleIntersect = () => {
+    if (features.length !== 2) return;
+    dispatch(intersectFeatures());
+  };
 
   return (
     <section className={styles['stats-tools']}>
@@ -27,7 +33,9 @@ const StatsTools = () => {
         <div className={styles['user-actions']}>
           <button>undo</button>
           <button>redo</button>
-          <button>intersect</button>
+          <button disabled={features.length !== 2} onClick={handleIntersect}>
+            intersect
+          </button>
           <button>union</button>
         </div>
         <div className={styles['operations']}>

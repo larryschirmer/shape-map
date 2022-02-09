@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import * as turfHelpers from '@turf/helpers';
 
 import { RootState } from 'app/store';
 import geoData from 'data';
+import intersectPolygons from 'app/utils/intersectPolygons';
 
 type Solution = {
   id: number;
   name: string;
   features: {
-    polygon: number[][][];
+    polygon: turfHelpers.Position[][];
   }[];
   history: number[][];
   selected: number[];
@@ -68,13 +70,33 @@ export const appDataSlice = createSlice({
         }),
       };
     },
-    intersectFeatures: (state, action: PayloadAction<[number, number]>) => {
-      // perform intersect process
-      // add intersected feature to features array
-      // create a new history state
-      // - remove intersected parents
-      // - add intersected feature id
-      // append new history instance
+    intersectFeatures: (state) => {
+      if (state.selectedSolution === null) return state;
+      const { features, selected, history } = state.data[state.selectedSolution];
+      if (selected.length !== 2) return state;
+
+      const { features: updatedFeatures, history: updatedHistory } = intersectPolygons(
+        features,
+        selected,
+        history,
+      );
+
+      // return state
+      return {
+        ...state,
+        data: state.data.map((solution) => {
+          if (solution.id === state.selectedSolution) {
+            return {
+              ...solution,
+              features: updatedFeatures,
+              history: updatedHistory,
+              selected: [],
+            };
+          } else {
+            return solution;
+          }
+        }),
+      };
     },
   },
 });
@@ -101,4 +123,5 @@ export const selectFeatures = ({ appData }: RootState) => {
     }));
 };
 
-export const { loadData, setSelectedSolution, toggleFeature } = appDataSlice.actions;
+export const { loadData, setSelectedSolution, toggleFeature, intersectFeatures } =
+  appDataSlice.actions;
