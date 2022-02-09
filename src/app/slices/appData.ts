@@ -11,7 +11,8 @@ type Solution = {
   features: {
     polygon: turfHelpers.Position[][];
   }[];
-  history: number[][];
+  history: { id: number; description: string; featureIds: number[] }[];
+  historyIdx: number;
   selected: number[];
 };
 
@@ -36,7 +37,14 @@ export const appDataSlice = createSlice({
         features: features.map(({ geometry }) => ({
           polygon: geometry.coordinates,
         })),
-        history: [[...new Array(features.length).fill(null).map((_, idx) => idx)]],
+        history: [
+          {
+            id: 0,
+            description: 'Original State',
+            featureIds: [...new Array(features.length).fill(null).map((_, idx) => idx)],
+          },
+        ],
+        historyIdx: 0,
         selected: [],
       }));
     },
@@ -72,13 +80,14 @@ export const appDataSlice = createSlice({
     },
     intersectFeatures: (state) => {
       if (state.selectedSolution === null) return state;
-      const { features, selected, history } = state.data[state.selectedSolution];
+      const { features, selected, history, historyIdx } = state.data[state.selectedSolution];
       if (selected.length !== 2) return state;
 
       const { features: updatedFeatures, history: updatedHistory } = intersectPolygons(
         features,
         selected,
         history,
+        historyIdx,
       );
 
       // return state
@@ -90,6 +99,7 @@ export const appDataSlice = createSlice({
               ...solution,
               features: updatedFeatures,
               history: updatedHistory,
+              historyIdx: 0,
               selected: [],
             };
           } else {
@@ -100,13 +110,14 @@ export const appDataSlice = createSlice({
     },
     unionFeatures: (state) => {
       if (state.selectedSolution === null) return state;
-      const { features, selected, history } = state.data[state.selectedSolution];
+      const { features, selected, history, historyIdx } = state.data[state.selectedSolution];
       if (selected.length !== 2) return state;
 
       const { features: updatedFeatures, history: updatedHistory } = unionPolygons(
         features,
         selected,
         history,
+        historyIdx,
       );
 
       // return state
@@ -118,7 +129,46 @@ export const appDataSlice = createSlice({
               ...solution,
               features: updatedFeatures,
               history: updatedHistory,
+              historyIdx: 0,
               selected: [],
+            };
+          } else {
+            return solution;
+          }
+        }),
+      };
+    },
+    undoAction: (state) => {
+      if (state.selectedSolution === null) return state;
+      const { history, historyIdx } = state.data[state.selectedSolution];
+      if (historyIdx >= history.length - 1) return state;
+
+      return {
+        ...state,
+        data: state.data.map((solution) => {
+          if (solution.id === state.selectedSolution) {
+            return {
+              ...solution,
+              historyIdx: historyIdx + 1,
+            };
+          } else {
+            return solution;
+          }
+        }),
+      };
+    },
+    redoAction: (state) => {
+      if (state.selectedSolution === null) return state;
+      const { historyIdx } = state.data[state.selectedSolution];
+      if (historyIdx <= 0) return state;
+
+      return {
+        ...state,
+        data: state.data.map((solution) => {
+          if (solution.id === state.selectedSolution) {
+            return {
+              ...solution,
+              historyIdx: historyIdx - 1,
             };
           } else {
             return solution;
@@ -151,5 +201,18 @@ export const selectFeatures = ({ appData }: RootState) => {
     }));
 };
 
-export const { loadData, setSelectedSolution, toggleFeature, intersectFeatures, unionFeatures } =
-  appDataSlice.actions;
+export const selectHistory = ({ appData }: RootState) => {
+  if (appData.selectedSolution === null) return null;
+  const { historyIdx, history } = appData.data[appData.selectedSolution];
+  return { historyIdx, history };
+};
+
+export const {
+  loadData,
+  setSelectedSolution,
+  toggleFeature,
+  intersectFeatures,
+  unionFeatures,
+  undoAction,
+  redoAction,
+} = appDataSlice.actions;

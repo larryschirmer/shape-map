@@ -3,4 +3,13 @@
 .stats-tools {
   grid-area: stats-tools;
   padding: 2rem;
+  .operations {
+    ul {
+      li.operation {
+        &.active {
+          list-style: circle;
+        }
+      }
+    }
+  }
 }

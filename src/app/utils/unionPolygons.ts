@@ -5,7 +5,12 @@ type Feature = {
   polygon: turfHelpers.Position[][];
 };
 
-const unionPolygons = (features: Feature[], selected: number[], history: number[][]) => {
+const unionPolygons = (
+  features: Feature[],
+  selected: number[],
+  history: { id: number; description: string; featureIds: number[] }[],
+  historyIdx: number,
+) => {
   // perform intersect process
   const poly1 = turfHelpers.polygon(features[selected[0]].polygon);
   const poly2 = turfHelpers.polygon(features[selected[1]].polygon);
@@ -31,14 +36,21 @@ const unionPolygons = (features: Feature[], selected: number[], history: number[
   const updatedFeatures: Feature[] = [...features, ...newFeatures];
   // create a new history state
   // - remove intersected parents
-  let newHistory = history[0]
+  const newHistoryIds = history[historyIdx].featureIds
     .filter((featureId) => !selected.includes(featureId))
     // - add new feature ids
     .concat(new Array(newFeatures.length).fill(null).map((_, idx) => features.length + idx));
 
+  let updatedHistory = history.slice(0);
+  const newHistoryIdx = history[0].id + 1;
+  updatedHistory.splice(0, historyIdx);
+
   return {
     features: updatedFeatures,
-    history: [newHistory, ...history],
+    history: [
+      { id: newHistoryIdx, description: 'Union', featureIds: newHistoryIds },
+      ...updatedHistory,
+    ],
   };
 };
 

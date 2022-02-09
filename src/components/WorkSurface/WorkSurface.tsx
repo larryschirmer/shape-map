@@ -26,7 +26,7 @@ const WorkSurface = () => {
   return (
     <section className={styles['work-surface']}>
       {solution !== null &&
-        solution.history[0].map((featureId) => (
+        solution.history[solution.historyIdx].featureIds.map((featureId) => (
           <button
             key={featureId}
             onClick={() => handleToggleFeature(featureId)}
