@@ -77,6 +77,12 @@ html {
   ul {
     list-style: none;
   }
+  a,
+  button {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 *,
