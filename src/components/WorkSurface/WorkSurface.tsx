@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import classNames from 'classnames';
-import mapboxgl from 'mapbox-gl';
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import * as turfHelpers from '@turf/helpers'
 import turfBBox from '@turf/bbox';
@@ -79,7 +81,10 @@ const WorkSurface = () => {
           }
         })
         if (!mapLayers.includes(id("layer"))) {
-          mapInstance.on('click', id('layer'), (e) => {
+          type ClickEvent = mapboxgl.MapMouseEvent & {
+            features?: mapboxgl.MapboxGeoJSONFeature[] | undefined;
+          } & mapboxgl.EventData
+          mapInstance.on('click', id('layer'), (e: ClickEvent) => {
             const featureId = e.features?.[0].properties?.name || '';
             if (typeof Number(featureId) === 'number')
               handleToggleFeature(Number(featureId))
