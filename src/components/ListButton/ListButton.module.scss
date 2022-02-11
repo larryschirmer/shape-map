@@ -1,0 +1,12 @@
+@import "styles/vars.scss";
+
+.list-button {
+  width: 100%;
+  border: none;
+  background-color: none;
+  padding: 1rem;
+  &.is-active {
+    background-color: $grey-5;
+    font-weight: bold;
+  }
+}
