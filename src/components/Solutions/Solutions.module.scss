@@ -1,19 +1,14 @@
 @import 'styles/vars.scss';
 
 .solutions {
+  z-index: 1;
   grid-area: solutions;
-  padding: 2rem;
+  background-color: white;
   ul {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     li {
-      .solution {
-        &.selected {
-          background-color: $grey-8;
-          color: white;
-        }
-      }
+      
     }
   }
 }

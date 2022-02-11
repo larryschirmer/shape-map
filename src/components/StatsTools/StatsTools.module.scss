@@ -5,10 +5,8 @@
   padding: 2rem;
   .operations {
     ul {
-      li.operation {
-        &.active {
-          list-style: circle;
-        }
+      li {
+        
       }
     }
   }

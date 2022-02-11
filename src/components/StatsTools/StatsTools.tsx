@@ -1,7 +1,6 @@
 import React from 'react';
 import turfArea from '@turf/area';
 import * as turfHelpers from '@turf/helpers';
-import classNames from 'classnames';
 
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import {
@@ -11,7 +10,10 @@ import {
   unionFeatures,
   undoAction,
   redoAction,
+  jumpToAction,
 } from 'app/slices/appData';
+
+import ListButton from 'components/ListButton';
 
 import styles from './StatsTools.module.scss';
 
@@ -28,6 +30,10 @@ const StatsTools = () => {
     dispatch(redoAction());
   };
 
+  const handleJumpToAction = (newHistoryIdx: number) => {
+    dispatch(jumpToAction(newHistoryIdx))
+  }
+
   const handleIntersect = () => {
     if (features.length !== 2) return;
     dispatch(intersectFeatures());
@@ -38,10 +44,9 @@ const StatsTools = () => {
     dispatch(unionFeatures());
   };
 
-  const operationClass = (operationId: number) =>
-    classNames(styles['operation'], {
-      [styles['active']]: operationId === historyIdx,
-    });
+  const isSelected = (operationId: number) => {
+    return operationId === historyIdx
+  }
 
   return (
     <section className={styles['stats-tools']}>
@@ -72,10 +77,13 @@ const StatsTools = () => {
           </button>
         </div>
         <div className={styles['operations']}>
+          <h5>History</h5>
           <ul>
             {history.map(({ id, description }, idx) => (
-              <li key={id} className={operationClass(idx)}>
-                {description}
+              <li key={id}>
+                <ListButton onClick={() => handleJumpToAction(idx)} isActive={isSelected(idx)}>
+                  {description}
+                </ListButton>
               </li>
             ))}
           </ul>

@@ -8,6 +8,7 @@
     'header header header'
     'solutions work-surface stats-tools';
   .header {
+    z-index: 1;
     grid-area: header;
     background-color: $grey-9;
     padding: 2rem;
