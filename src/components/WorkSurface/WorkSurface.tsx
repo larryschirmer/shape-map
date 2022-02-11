@@ -52,7 +52,7 @@ const WorkSurface = () => {
       const bounds: [number, number][] = []
 
       activeShapes.forEach(({ polygon }, idx) => {
-        const id = (type: "source" | "layer") => `${type}-${activeFeatureIds[idx]}`
+        const id = (type: "source" | "layer") => `${type}-${activeFeatureIds[idx]}-${solution.id}`
         mapInstance.addSource(id("source"), {
           type: 'geojson',
           data: {
@@ -80,8 +80,7 @@ const WorkSurface = () => {
         })
         if (!mapLayers.includes(id("layer"))) {
           mapInstance.on('click', id('layer'), (e) => {
-            const featureId = e.features?.[0].properties?.name || ''
-            console.log(featureId)
+            const featureId = e.features?.[0].properties?.name || '';
             if (typeof Number(featureId) === 'number')
               handleToggleFeature(Number(featureId))
           });
@@ -99,7 +98,7 @@ const WorkSurface = () => {
       mapInstance.fitBounds([{ lat: boundingBox[1], lng: boundingBox[0] }, { lat: boundingBox[3], lng: boundingBox[2] }], { padding: 20 })
       return () => {
         activeShapes.forEach((_, idx) => {
-          const id = (type: "source" | "layer") => `${type}-${activeFeatureIds[idx]}`
+          const id = (type: "source" | "layer") => `${type}-${activeFeatureIds[idx]}-${solution.id}`
           if (mapInstance?.getLayer(id("layer"))) {
             mapInstance.removeLayer(id("layer"));
           }
@@ -110,6 +109,22 @@ const WorkSurface = () => {
       }
     }
   }, [handleToggleFeature, mapInstance, mapLayers, solution]);
+
+  // if shape is selected then change color
+  useEffect(() => {
+    if (!mapInstance || !solution) return () => { }
+    const { selected = [] } = solution ?? {}
+    selected.forEach(featureId => {
+      const id = `layer-${featureId}-${solution.id}`
+      if (selected.includes(featureId)) {
+        mapInstance.setPaintProperty(id, 'fill-color', 'rgba(1, 48, 132, 0.7)')
+        mapInstance.setPaintProperty(id, 'fill-outline-color', 'rgba(1, 48, 132, 1)')
+      } else {
+        mapInstance.setPaintProperty(id, 'fill-color', 'rgba(1, 48, 132, 0.4)')
+        mapInstance.setPaintProperty(id, 'fill-outline-color', 'rgba(1, 48, 132, 0.4)')
+      }
+    })
+  }, [mapInstance, solution])
 
   const mapClass = classNames(styles['map'], {
     [styles['selected']]: solution !== null

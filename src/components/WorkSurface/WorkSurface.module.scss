@@ -12,6 +12,7 @@
     transition: filter 1s;
     &.selected {
       filter: blur(0);
+      transition: filter 1s;
     }
   }
 }
