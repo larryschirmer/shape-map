@@ -150,6 +150,7 @@ export const appDataSlice = createSlice({
             return {
               ...solution,
               historyIdx: historyIdx + 1,
+              selected: [],
             };
           } else {
             return solution;
@@ -169,6 +170,7 @@ export const appDataSlice = createSlice({
             return {
               ...solution,
               historyIdx: historyIdx - 1,
+              selected: [],
             };
           } else {
             return solution;
@@ -188,6 +190,7 @@ export const appDataSlice = createSlice({
             return {
               ...solution,
               historyIdx: action.payload,
+              selected: [],
             };
           } else {
             return solution;
