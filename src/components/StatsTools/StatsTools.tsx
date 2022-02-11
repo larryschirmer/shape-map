@@ -15,6 +15,11 @@ import {
 
 import ListButton from 'components/ListButton';
 
+import undoIcon from './icons/rotate-left-solid.svg';
+import redoIcon from './icons/rotate-right-solid.svg';
+import intersectIcon from './icons/object-intersect-solid.svg'
+import unionIcon from './icons/object-union-solid.svg'
+
 import styles from './StatsTools.module.scss';
 
 const StatsTools = () => {
@@ -50,6 +55,7 @@ const StatsTools = () => {
 
   return (
     <section className={styles['stats-tools']}>
+      <h5>Stats</h5>
       <div className={styles['stats']}>
         {features.map(({ featureId, polygon }) => (
           <div key={featureId} className={styles['feature-area']}>
@@ -64,16 +70,16 @@ const StatsTools = () => {
       <div className={styles['tools']}>
         <div className={styles['user-actions']}>
           <button disabled={historyIdx >= history.length - 1} onClick={handleUndo}>
-            undo
+            <img src={undoIcon} alt="undo" />
           </button>
           <button disabled={historyIdx <= 0} onClick={handleRedo}>
-            redo
+            <img src={redoIcon} alt="redo" />
           </button>
           <button disabled={features.length !== 2} onClick={handleIntersect}>
-            intersect
+            <img src={intersectIcon} alt="intersect selection" />
           </button>
           <button disabled={features.length !== 2} onClick={handleUnion}>
-            union
+            <img src={unionIcon} alt="union selection" />
           </button>
         </div>
         <div className={styles['operations']}>
