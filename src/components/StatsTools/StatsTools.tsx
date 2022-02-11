@@ -13,6 +13,8 @@ import {
   jumpToAction,
 } from 'app/slices/appData';
 
+import { polygonAreaSum } from 'app/utils';
+
 import ListButton from 'components/ListButton';
 
 import undoIcon from './icons/rotate-left-solid.svg';
@@ -66,6 +68,13 @@ const StatsTools = () => {
             m<sup>2</sup>
           </div>
         ))}
+        {features.length === 2 && (
+          <div className={styles['feature-area']}>
+            <strong>total</strong>{' '}
+            {polygonAreaSum(features[0], features[1])}{' '}
+            m<sup>2</sup>
+          </div>
+        )}
       </div>
       <div className={styles['tools']}>
         <div className={styles['user-actions']}>

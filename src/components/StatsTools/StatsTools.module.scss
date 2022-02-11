@@ -1,19 +1,20 @@
 @import 'styles/vars.scss';
 
 .stats-tools {
+  z-index: 1;
+  background-color: white;
   grid-area: stats-tools;
   h5 {
     margin-left: 1rem;
     margin-bottom: 1rem;
   }
   .stats {
-    height: 8rem;
+    height: 10.25rem;
     background-color: $grey-3;
     margin-bottom: 1rem;
+    padding: 1rem 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
   .tools {
     .user-actions {

@@ -11,31 +11,31 @@ const unionPolygons = (
   history: { id: number; description: string; featureIds: number[] }[],
   historyIdx: number,
 ) => {
-  // perform intersect process
+  // perform union process
   const poly1 = turfHelpers.polygon(features[selected[0]].polygon);
   const poly2 = turfHelpers.polygon(features[selected[1]].polygon);
-  const intersectedFeature = turfUnion(poly1, poly2);
+  const unionFeature = turfUnion(poly1, poly2);
 
-  // return original inputs if no intersection exists
-  if (intersectedFeature === null)
+  // return original inputs if no union exists
+  if (unionFeature === null)
     return {
       features,
       history,
     };
 
-  // add intersected feature to features array
+  // add union feature to features array
   let newFeatures: Feature[];
-  if (intersectedFeature.geometry.type === 'Polygon') {
-    newFeatures = [{ polygon: intersectedFeature.geometry.coordinates }];
+  if (unionFeature.geometry.type === 'Polygon') {
+    newFeatures = [{ polygon: unionFeature.geometry.coordinates }];
   } else {
-    newFeatures = intersectedFeature.geometry.coordinates.map((feature) => ({
+    newFeatures = unionFeature.geometry.coordinates.map((feature) => ({
       polygon: feature,
     }));
   }
 
   const updatedFeatures: Feature[] = [...features, ...newFeatures];
   // create a new history state
-  // - remove intersected parents
+  // - remove union parents
   const newHistoryIds = history[historyIdx].featureIds
     .filter((featureId) => !selected.includes(featureId))
     // - add new feature ids
