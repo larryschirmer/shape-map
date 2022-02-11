@@ -1,44 +1,42 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Shape Map
 
-## Available Scripts
+## A view and edit interface for GeoJSON files
 
-In the project directory, you can run:
+![app sample](https://github.com/larryschirmer/shape-map/raw/main/docs/sample-img.png)
 
-### `npm start`
+### Features
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Accepts GeoJSON files and import features into the map
+- Allows for intersecting and unioning features from a GeoJSON file
+- Edit are kept even when switch between GeoJSON files
+- The area and total sum area (excluding overlap) is displayed in the stats section
+- Undoing and redoing edits is easy
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Built With
 
-### `npm test`
+- React.js
+- Typescript
+- Mapbox
+- Turf.js
+- CSS Modules
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Importing GeoJSON files
 
-### `npm run build`
+To import additional files, add the new file to the `src/data` directory. Open the `index.ts` file and:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Import the new GeoJSON file
+- Add the features of the file to the `data` array including an `id` and `name` property.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Install
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- clone repository
+- create file `.devcontainer/devcontainer.env`
+- include in env file a value for `REACT_APP_MAPBOX_TOKEN=`
+- load dev container
+- run `yarn start`
 
-### `npm run eject`
+### Future Work
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Make importing GeoJSON files easier by
+    - setting up a backend route to return to the frontend the necessary data
+    - create a file io process to automatically search and import GeoJSON files from a predefined directory
