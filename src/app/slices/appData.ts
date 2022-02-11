@@ -176,6 +176,25 @@ export const appDataSlice = createSlice({
         }),
       };
     },
+    jumpToAction: (state, action: PayloadAction<number>) => {
+      if (state.selectedSolution === null) return state;
+      const { history } = state.data[state.selectedSolution];
+      if (action.payload < 0 || action.payload >= history.length) return state;
+
+      return {
+        ...state,
+        data: state.data.map((solution) => {
+          if (solution.id === state.selectedSolution) {
+            return {
+              ...solution,
+              historyIdx: action.payload,
+            };
+          } else {
+            return solution;
+          }
+        }),
+      };
+    },
   },
 });
 
@@ -215,4 +234,5 @@ export const {
   unionFeatures,
   undoAction,
   redoAction,
+  jumpToAction,
 } = appDataSlice.actions;
